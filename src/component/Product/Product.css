@@ -39,3 +39,6 @@
 .cartIcon{
     margin-left: 5px;
 }
+.order-container{
+    background: rgba(255, 153, 0, 0.3);
+}
