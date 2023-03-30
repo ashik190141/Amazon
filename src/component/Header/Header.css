@@ -1,0 +1,15 @@
+.header{
+    background: #1C2B35;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 100px;
+    padding-right: 97px;
+    padding-top: 19px;
+    padding-bottom: 19px;
+}
+nav.header a{
+    text-decoration: none;
+    color: white;
+    margin-right: 32px;
+}
