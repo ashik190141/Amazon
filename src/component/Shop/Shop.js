@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Product from '../Product/Product';
 import './Shop.css';
 import Cart from '../Cart/Cart';
+import '../../utilities/fakedb';
+import { addToDb, getShoppingCart } from '../../utilities/fakedb';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -13,9 +15,33 @@ const Shop = () => {
             .then(data => setProducts(data));
     }, []);
 
+    useEffect(() => {
+        const saveCart = [];
+        const storedCart = getShoppingCart();
+        for (const id in storedCart) {
+            const saveProduct = products.find(product => product.id === id);
+            if (saveProduct) {
+                const quantity = storedCart[id];
+                saveProduct.quantity = quantity;
+                saveCart.push(saveProduct);
+            }
+        }
+        setCart(saveCart);
+    }, [products]);
+
     const handleToCart = (product) => {
-        const newCart = [...cart, product];
+        let newCart = [];
+        const exist = cart.find(pd => pd.id === product.id);
+        if (!exist) {
+            product.quantity = 1;
+            newCart = [...cart, product];
+        } else {
+            exist.quantity += 1;
+            const remaining = cart.filter(pd => pd.id !== product.id);
+            newCart = [...cart, remaining];
+        }
         setCart(newCart);
+        addToDb(product.id);
     };
 
     return (
@@ -30,7 +56,7 @@ const Shop = () => {
                 }
             </div>
             <div className="order-container">
-                <h2>Order Summary</h2>
+                <h2 className='align'>Order Summary</h2>
                 <Cart cart={cart}></Cart>
             </div>
         </div>

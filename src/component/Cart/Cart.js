@@ -6,9 +6,12 @@ const Cart = (proms) => {
     
     let totalPrice = 0;
     let shipping = 0;
+    let quantity = 0;
+
     for (const product of cart) {
-        totalPrice = totalPrice + product.price;
+        totalPrice = totalPrice + product.price * product.quantity;
         shipping = shipping + product.shipping;
+        quantity = quantity + product.quantity;
     }
 
     const tax = totalPrice * 7 / 100;
@@ -16,7 +19,7 @@ const Cart = (proms) => {
 
     return (
         <div className='cart'>
-            <p>Selected Items: {cart.length}</p>
+            <p>Selected Items: {quantity}</p>
             <p>Total Price: ${totalPrice}</p>
             <p>Total Shipping Charge: ${shipping}</p>
             <p>Tax: ${tax}</p>
